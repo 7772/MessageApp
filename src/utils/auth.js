@@ -1,17 +1,23 @@
-import { AccessToken, LoginManager } from 'react-native-fbsdk';
+import {
+  AccessToken as FBAccessToken,
+  LoginManager as FBLoginManager,
+  GraphRequest,
+  GraphRequestManager
+} from "react-native-fbsdk";
 import firebase from 'react-native-firebase'
 
 const fbGetCredential = async () => {
+  console.log("fbGetCredential");
   try {
-    const result = await LoginManager.logInWithReadPermissions(['public_profile', 'email']);
+    const result = await FBLoginManager.logInWithReadPermissions(['public_profile', 'email']);
     if (result.isCancelled) {
       return Promise.reject({
         status: "canceled"
       });
     }
-    // console.log(`Login success with permissions: ${result}`);
+    console.log(`Login success with permissions: ${result}`);
     // get the access token
-    const data = await AccessToken.getCurrentAccessToken();
+    const data = await FBAccessToken.getCurrentAccessToken();
     if (!data) {
       return Promise.reject({
         status: "Failure",
@@ -20,9 +26,9 @@ const fbGetCredential = async () => {
     }
     // create a new firebase credential with the token
     const credential = firebase.auth.FacebookAuthProvider.credential(data.accessToken);
-    // console.log("credential with Firebase", credential);
+    console.log("credential with Firebase", credential);
     const currentUser = await firebase.auth().signInAndRetrieveDataWithCredential(credential);
-    // console.log("currentUser with Firebase", currentUser.user.toJSON());
+    console.log("currentUser with Firebase", currentUser.user.toJSON());
     
     if (!currentUser) {
       return Promise.reject({
@@ -64,6 +70,7 @@ export const logout = () => {
 };
 
 export async function loginFB() {
+  console.log("loginFB");
   try {
     const credential = await fbGetCredential();
     return Promise.resolve(credential);
