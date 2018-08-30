@@ -1,18 +1,20 @@
 package com.messageapp;
 
 import android.app.Application;
+
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
+import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.facebook.appevents.AppEventsLogger;
-import com.facebook.reactnative.androidsdk.FBSDKPackage;
+
 import com.facebook.react.ReactApplication;
-import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import io.invertase.firebase.RNFirebasePackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 import io.invertase.firebase.auth.RNFirebaseAuthPackage;
+import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -35,10 +37,10 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-          new FBSDKPackage(),
           new FBSDKPackage(mCallbackManager),
           new RNFirebasePackage(),
-          new RNFirebaseAuthPackage()
+          new RNFirebaseAuthPackage(),
+          new RNFirebaseMessagingPackage()
       );
     }
 
@@ -56,7 +58,9 @@ public class MainApplication extends Application implements ReactApplication {
   @Override
   public void onCreate() {
     super.onCreate();
+    // Facebook App Event Logger Start
     AppEventsLogger.activateApp(this);
+    // Facebook App Event Logger End
     SoLoader.init(this, /* native exopackage */ false);
   }
 }
