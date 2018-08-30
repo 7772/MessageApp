@@ -65,7 +65,7 @@ const cleanLoginStatus = () => {
 
 
 export const logout = () => {
-  LoginManager.logOut();
+  FBLoginManager.logOut();
   cleanLoginStatus();
 };
 
