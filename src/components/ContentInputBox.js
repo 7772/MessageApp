@@ -33,13 +33,14 @@ class ContentInputBox extends React.Component {
                         autoCorrect={autoCorrect}
                         placeholer={placeholer}
                         value={value}
+                        onSubmitEditing={handleSubmit}
                         onChangeText={onChangeText}
                         style={textInputStyle}
                     />
                 </View>
                 <View>
                     <Button 
-                        title="검색"
+                        title="전송"
                         onPress={handleSubmit}
                     />
                 </View>

@@ -9,6 +9,8 @@ import * as MessageCreators from "../redux/modules/message";
 import MessageScreen from "../components/MessageScreen";
 import LoginContainer from "../containers/LoginContainer";
 import ContentInputBox from '../components/ContentInputBox';
+import firebase, { Notification } from "react-native-firebase";
+
 
 class MessageContainer extends Component {
 
@@ -19,6 +21,23 @@ class MessageContainer extends Component {
       content: ""
     };
   }
+
+  componentDidMount() {
+    this.notificationDisplayedListener = firebase.notifications().onNotificationDisplayed((notification: Notification) => {
+        // Process your notification as required
+        // ANDROID: Remote notifications do not contain the channel ID. You will have to specify this manually if you'd like to re-display the notification.
+        console.log("notificationDisplayedListener");
+    });
+    this.notificationListener = firebase.notifications().onNotification((notification: Notification) => {
+        // Process your notification as required
+        alert("notificationListener");
+    });
+}
+
+componentWillUnmount() {
+    this.notificationDisplayedListener();
+    this.notificationListener();
+}
 
   handleMessage(content) {
     // if (content === '') {
@@ -35,6 +54,19 @@ class MessageContainer extends Component {
   }
 
   handleSubmit = () => {
+    console.log("handleSubmit");
+    firebase.messaging().hasPermission()
+      .then(enabled => {
+        if (enabled) {
+          // user has permissions
+          console.log("enabled");
+        } else {
+          // user doesn't have permission
+          console.log("don't enabled");
+        } 
+      });
+
+
     if (this.state.content !== '') {
         this.props.handleLoading(true);
 

@@ -64,6 +64,7 @@ export default (reducer = (state = initialState, action) => {
 });
 
 const getUserDataWithFirebase = async loginType => {
+  console.log("getUserDataWithFirebase");
   try {
     let res;
     if (loginType === "facebook") {
@@ -84,6 +85,7 @@ const getUserDataWithFirebase = async loginType => {
 
 // // side effects, e.g. thunk, saga ..
 export const login = loginType => async dispatch => {
+  console.log("login");
   dispatch(attempt());
 
   let userDataWithFirebase = await getUserDataWithFirebase(loginType);
