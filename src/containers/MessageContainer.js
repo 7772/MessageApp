@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Alert } from 'react-native';
 import PropTypes from "prop-types";
 import { SafeAreaView } from "react-navigation";
 import { SharedStyles, MessageStyles } from "../styles";
@@ -22,21 +22,28 @@ class MessageContainer extends Component {
     };
   }
 
-  componentDidMount() {
-    this.notificationDisplayedListener = firebase.notifications().onNotificationDisplayed((notification: Notification) => {
-        // Process your notification as required
-        // ANDROID: Remote notifications do not contain the channel ID. You will have to specify this manually if you'd like to re-display the notification.
-        console.log("notificationDisplayedListener");
-    });
-    this.notificationListener = firebase.notifications().onNotification((notification: Notification) => {
-        // Process your notification as required
-        alert("notificationListener");
-    });
+componentDidMount() {
+  this.notificationDisplayedListener = firebase.notifications().onNotificationDisplayed((notification: Notification) => {
+      // Process your notification as required
+      // ANDROID: Remote notifications do not contain the channel ID. You will have to specify this manually if you'd like to re-display the notification.
+      console.log("notificationDisplayedListener");
+  });
+  this.notificationListener = firebase.notifications().onNotification((notification: Notification) => {
+      // Process your notification as required
+      console.log("notification", notification);
+      Alert.alert(notification._title, notification._body);
+  });
+  this.subscribeToTopic();
 }
 
 componentWillUnmount() {
     this.notificationDisplayedListener();
     this.notificationListener();
+}
+
+subscribeToTopic() {
+  console.log("subscribeToTopic");
+  firebase.messaging().subscribeToTopic("MessageAppTesting");
 }
 
 handleMessage(content) {
