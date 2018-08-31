@@ -50,11 +50,7 @@ const handleFirestrom = async message => {
       .doc("global").collection("messages");
     const docRef = await messageCollection.add({ message: message });
     // console.log("docRef", docRef);
-    if (!docRef) {
-      return Promise.reject({ status: "Failure" });
-    } else {
-      return Promise.resolve({ status: "OK", docId: docRef.id });
-    }
+    return Promise.resolve({ status: "OK", docId: docRef.id });
   } catch (error) {
     return Promise.reject({ status: "Failure", error: error });
   }

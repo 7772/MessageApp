@@ -93,7 +93,7 @@ export const login = loginType => async dispatch => {
   // console.log("userDataWithFirebase", userDataWithFirebase);
 
   if (userDataWithFirebase && userDataWithFirebase.status === "OK") {
-    let userInfo = userDataWithFirebase.userInfo
+    let userInfo = userDataWithFirebase.userInfo;
 
     console.log("userInfo", userInfo);
     dispatch(ProfileCreators.addProfile(userInfo));
