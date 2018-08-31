@@ -39,37 +39,38 @@ componentWillUnmount() {
     this.notificationListener();
 }
 
-  handleMessage(content) {
-    // if (content === '') {
-    //     this.setState({
-    //       content: '',
-    //       error: tr
-    //     });
-    //     this.props.handleClearNews();
-    // } 
-    // else {
-    //     this.setState({content: content});
-    // }
-    this.setState({content: content});
-  }
+handleMessage(content) {
+  this.setState({content: content});
+}
 
   handleSubmit = () => {
-    console.log("handleSubmit");
-    firebase.messaging().hasPermission()
-      .then(enabled => {
-        if (enabled) {
-          // user has permissions
-          console.log("enabled");
-        } else {
-          // user doesn't have permission
-          console.log("don't enabled");
-        } 
-      });
-
-
+    /** 기존 방식 - Redux 만 이용
+     *  1. content 가 있는 상태로 전송버튼을 누르면
+     *    - 로딩 상태를 true 로 변경시켜줌
+     *    - message 객체를 정의
+     *    - message redux 로 보내줌
+     *    - content 를 초기상태로 돌려줌
+     *    - 로딩 상태를 false 로 돌려놓음
+     *  2. content 가 없는 상태로 전송버튼을 누르면
+     *    - "메시지를 입력해주세요" alert 출력
+     * 
+     * 새로운 방식 - Firebase firestorm + Redux 사용
+     *  1. content 가 있는 상태로 전송버튼을 누르면
+     *    - message 객체를 정의
+     *    - handleMessageWithFirestorm 으로 보내줌 
+     *  2. content 가 없는 상태로 전송버튼을 누르면
+     *    - "메시지를 입력해주세요" alert 출력
+     * 
+     * handleMessageWithFirestorm 동작 방식 정리
+     *  1. 로딩 상태를 true 로 변경시켜줌
+     *  2. firestorm 으로 메시지를 전송시킴
+     *  3. store 에 메시지 객체를 추가시킴 
+     *  (단순 앱에 메시지를 보여주는 기능은 
+     *    firestore API 통신을 하지않고 앱에서 그대로 보여줌)
+     *  4. 로딩 상태를 false 로 돌려놓음
+     */ 
     if (this.state.content !== '') {
-        this.props.handleLoading(true);
-
+        // this.props.handleLoading(true);
         let message = {
           content: this.state.content,
           userInfo: {
@@ -80,10 +81,11 @@ componentWillUnmount() {
           },
           sendTime: new Date()
         }
-
-        this.props.handleAddMessage(message);
-        this.setState({content: ""});
-        this.props.handleLoading(false);
+        // this.props.handleAddMessage(message);
+        // this.setState({content: ""});
+        // this.props.handleLoading(false);
+        this.props.handleMessageWithFirestorm(message);
+        this.setState({ content: "" });
     }
     else {
         alert('메시지를 입력해주세요!')
@@ -145,6 +147,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
   handleLoading: bindActionCreators(MessageCreators.loading, dispatch),
   handleAddMessage: bindActionCreators(MessageCreators.addMessage, dispatch),
+  handleMessageWithFirestorm: bindActionCreators(MessageCreators.messageWithFirestorm, dispatch)
 });
 
 export default connect(
