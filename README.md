@@ -13,6 +13,7 @@ Application sending and receiving message using Firebase Auth, Cloud Messaging, 
 - "react-redux": "^5.0.7"
 - "redux": "^4.0.0"
 - "redux-thunk": "^2.3.0
+- "react-native-push-notification-popup": "^1.1.1"
 
 ## Directory Structure
 - `- android` Android Native Code
