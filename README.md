@@ -1,6 +1,8 @@
 ## MessaginApp
 Application sending and receiving message using Firebase Auth, Cloud Messaging, Notification.
 
+![Alt Text](./assets/Demo.gif)
+
 ## Project Package Infomation
 - "prop-types": "^15.6.2"
 - "react": "16.4.1"
