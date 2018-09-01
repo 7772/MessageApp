@@ -15,12 +15,9 @@ class ProfileScreen extends Component {
   render() {
     const {
       name,
-      email,
-      userId,
       photoURL,
       isShowProfile
     } = this.props.profile;
-
     let styleProps = {
       containerStyle: ProfileStyles.profileContainer,
       photoContainerStyle: ProfileStyles.imageContainer,
@@ -31,7 +28,6 @@ class ProfileScreen extends Component {
       contentContainerStyle: ProfileStyles.contentContainer,
       contentStyle: ProfileStyles.content
     };
-
     return (
       <View style={SharedStyles.container}>
         {isShowProfile ? (
