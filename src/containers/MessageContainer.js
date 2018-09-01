@@ -10,7 +10,7 @@ import MessageScreen from "../components/MessageScreen";
 import LoginContainer from "../containers/LoginContainer";
 import ContentInputBox from '../components/ContentInputBox';
 import firebase, { Notification } from "react-native-firebase";
-
+import NotificationPopup from "react-native-push-notification-popup";
 
 class MessageContainer extends Component {
 
@@ -22,36 +22,44 @@ class MessageContainer extends Component {
     };
   }
 
-componentDidMount() {
-  this.notificationDisplayedListener = firebase.notifications().onNotificationDisplayed((notification: Notification) => {
-      // Process your notification as required
-      // ANDROID: Remote notifications do not contain the channel ID. You will have to specify this manually if you'd like to re-display the notification.
-      console.log("notificationDisplayedListener");
-  });
-  this.notificationListener = firebase.notifications().onNotification((notification: Notification) => {
-      // Process your notification as required
-      console.log("notification", notification);
-      Alert.alert(notification._title, notification._body);
-  });
-  this.subscribeToTopic();
-}
+  componentDidMount() {
+    this.notificationDisplayedListener = firebase.notifications().onNotificationDisplayed((notification: Notification) => {
+        // Process your notification as required
+        // ANDROID: Remote notifications do not contain the channel ID. You will have to specify this manually if you'd like to re-display the notification.
+        console.log("notificationDisplayedListener");
+    });
+    this.notificationListener = firebase.notifications().onNotification((notification: Notification) => {
+        // Process your notification as required
+        console.log("notification", notification);
+        this.popup.show({
+          onPress: function() {console.log('Pressed')},
+          appIconSource: require("../../assets/firebase.png"),
+          appTitle: "MessageApp",
+          timeText: 'Now',
+          title: "새 메세지가 도착했습니다!",
+          body: notification._body,
+        });
+    });
+    this.subscribeToTopic();
+  }
 
-componentWillUnmount() {
-    this.notificationDisplayedListener();
-    this.notificationListener();
-}
+  componentWillUnmount() {
+      this.notificationDisplayedListener();
+      this.notificationListener();
+  }
 
-subscribeToTopic() {
-  console.log("subscribeToTopic");
-  firebase.messaging().subscribeToTopic("MessageAppTesting");
-}
+  subscribeToTopic() {
+    console.log("subscribeToTopic");
+    firebase.messaging().subscribeToTopic("MessageAppTesting");
+  }
 
-handleMessage(content) {
-  this.setState({content: content});
-}
+  handleMessage(content) {
+    this.setState({content: content});
+  }
 
   handleSubmit = () => {
-    /** 기존 방식 - Redux 만 이용
+    /** 
+     * 기존 방식 - Redux 만 이용
      *  1. content 가 있는 상태로 전송버튼을 누르면
      *    - 로딩 상태를 true 로 변경시켜줌
      *    - message 객체를 정의
@@ -99,25 +107,21 @@ handleMessage(content) {
     }
   }
 
-
   render() {
     const { content } = this.state;
     const { profileState, loginState, messageState } = this.props;
     const { loggedIn } = loginState;
     const { messages, loading } = messageState;
-
-    console.log("messageState",  messageState);
-
     return (
       <SafeAreaView style={SharedStyles.safeAreaView}>
         <View style={SharedStyles.whiteContainer}>
           {loggedIn ? (
             <View style={SharedStyles.container}>
+              <NotificationPopup ref={ref => this.popup = ref} />
               <MessageScreen 
                 messages={messages}
                 loading={loading}
               />
-
               <ContentInputBox 
                 label="메시지 입력 : "
                 placeholer="메시지를 입력해주세요.."
@@ -132,7 +136,6 @@ handleMessage(content) {
                 inputContainerStyle={MessageStyles.innerTextInputContainer}
                 textInputStyle={MessageStyles.contentTextInput}
               />
-
             </View>
           ) : (
             <LoginContainer logoutButton={true} loggedIn={loggedIn} />
