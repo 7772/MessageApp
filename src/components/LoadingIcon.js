@@ -9,17 +9,13 @@ import PropTypes from "prop-types";
 
 import { View, ActivityIndicator } from "react-native";
 
-class LoadingIcon extends React.Component {
-  render() {
-    const { size, containerStyle, animating } = this.props;
-
-    return (
-      <View style={containerStyle}>
-        <ActivityIndicator animating={animating} size={size} />
-      </View>
-    );
-  }
-}
+const LoadingIcon = (size, containerStyle, animating) => {
+  return (
+    <View style={containerStyle}>
+      <ActivityIndicator animating={animating} size={size} />
+    </View>
+  );
+};
 
 LoadingIcon.propTypes = {
   size: PropTypes.string,

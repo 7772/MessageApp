@@ -9,7 +9,7 @@ class MessageScreen extends Component {
   renderMessage = (messages, styleProps) => {
     return (
       messages.map((message, key) => {
-        console.log("message", message);
+        // console.log("message", message);
         return (
           <View key={key} style={SharedStyles.container}>
             <ContentWithPhoto 
