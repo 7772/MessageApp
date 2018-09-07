@@ -16,7 +16,7 @@ Application sending and receiving message using Firebase Auth, Cloud Messaging, 
 - "react-native-push-notification-popup": "^1.1.1"
 
 ## Need to know in advance
-1. If you want to use Push Notification, You should set your Google Service Account Key in `/functions/serviceAccountKey/messageApp.json`.
+1. If you want to use Push Notification, You should set your Google Service Account Key in [`/functions/serviceAccountKey/messageApp.json`](https://github.com/7772/MessageApp/blob/development/functions/serviceAccountKey/messageApp.json).
 
 2. The Push Notification feature of this app is currently possible to use only Android. iOS don't use that since Apple Developer ID Issued is delayed.
 
@@ -24,7 +24,7 @@ Application sending and receiving message using Firebase Auth, Cloud Messaging, 
 
 1. Clone this project
 ```
-  $ git clone https://github.com/7772/MESSAGEAPP.git
+  $ git clone https://github.com/7772/MessageApp.git
 ```
 
 2. Install npm packages in root directory
