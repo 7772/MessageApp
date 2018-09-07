@@ -1,7 +1,7 @@
 ## MessaginApp
 Application sending and receiving message using Firebase Auth, Cloud Messaging, Notification.
 
-![Alt Text](./assets/Demo.gif)
+<img src="/assets/Demo.gif" width="250" height="380">
 
 ## Project Package Infomation
 - "prop-types": "^15.6.2"
@@ -40,7 +40,7 @@ Application sending and receiving message using Firebase Auth, Cloud Messaging, 
 
 ## Project Architecture
 
-![Alt Text](./assets/architecture.png)
+<img src="/assets/architecture.png" width="300" height="300">
 
 
 ## Directory Structure
