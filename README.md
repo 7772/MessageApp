@@ -40,7 +40,7 @@ Application sending and receiving message using Firebase Auth, Cloud Messaging, 
 
 ## Project Architecture
 
-<img src="/assets/architecture.png" width="300" height="300">
+<img src="/assets/architecture.png" width="500" height="500">
 
 
 ## Directory Structure
